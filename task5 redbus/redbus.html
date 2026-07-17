@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>redBus | Premium Bus Ticket Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="redbus.css">
+</head>
+<body>
+    <nav class="navbar sticky-top py-3 bg-white shadow-sm border-bottom border-light">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-800 fs-3" href="#" style="color: var(--rb-brand);">
+                <i class="bi bi-bus-front-fill me-2"></i>red<span class="text-dark">Bus</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <div id="userProfileDisplay"
+                    class="d-none align-items-center gap-3 bg-light p-1 pe-3 rounded-pill border">
+                    <div class="bg-white rounded-circle p-1 d-flex align-items-center justify-content-center shadow-sm"
+                        style="width: 36px; height: 36px;">
+                        <i class="bi bi-person-fill text-secondary"></i>
+                    </div>
+                    <span class="fw-700 fs-6 text-dark text-nowrap">Hi, <span id="displayedUserName"
+                            style="color: var(--rb-brand);">User</span></span>
+                    <button class="btn btn-sm btn-link text-decoration-none fw-700 text-muted p-0 ms-2 text-nowrap"
+                        onclick="logoutUser()">Sign Out</button>
+                </div>
+                <button class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center shadow"
+                    style="width: 44px; height: 44px;" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebarMenu">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-end border-0 shadow-lg" tabindex="-1" id="sidebarMenu"
+        aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header border-bottom py-3">
+            <h5 class="offcanvas-title fw-800 fs-4 text-nowrap" id="sidebarMenuLabel" style="color: var(--rb-brand);"><i
+                    class="bi bi-grid-1x2-fill me-2"></i>Menu Options</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column justify-content-between p-4">
+            <div class="d-grid gap-2">
+                <div id="sidebarUserStatus" class="p-3 bg-light border border-light rounded-4 mb-4">
+                    <p class="mb-2 text-muted fw-700 small text-uppercase tracking-wider text-nowrap">Account Dashboard
+                    </p>
+                    <div id="sidebarLoggedOut">
+                        <button class="btn btn-brand w-100 rounded-3 py-2 fw-700 text-nowrap shadow-sm"
+                            data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="offcanvas">Sign In To Your Account</button>
+                    </div>
+                    <div id="sidebarLoggedIn" class="d-none">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-person-circle fs-1" style="color: var(--rb-brand);"></i>
+                            <div>
+                                <h6 class="mb-0 fw-800 fs-5 text-dark" id="sidebarName">Active User</h6>
+                                <span class="badge bg-success-subtle text-success px-2 py-1 rounded mt-1 fw-600">Premium Member</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-uppercase tracking-wider fw-800 small text-muted px-2 mb-2 text-nowrap">Navigation Links
+                </p>
+                <span class="nav-link sidebar-link py-3 px-3 mb-1 text-nowrap" data-target="search-section"><i
+                        class="bi bi-ticket-perforated-fill me-2 fs-5" style="color: var(--rb-brand);"></i>Book Tickets</span>
+                <span class="nav-link sidebar-link py-3 px-3 mb-1 text-nowrap" data-target="offers-section"><i
+                        class="bi bi-tag-fill me-2 fs-5" style="color: var(--rb-brand);"></i>Trending Offers</span>
+                <span class="nav-link sidebar-link py-3 px-3 mb-1 text-nowrap" data-target="routes-section"><i
+                        class="bi bi-geo-alt-fill me-2 fs-5" style="color: var(--rb-brand);"></i>Popular Routes</span>
+                <span class="nav-link sidebar-link py-3 px-3 mb-1 text-nowrap" data-target="features-section"><i
+                        class="bi bi-shield-lock-fill me-2 fs-5" style="color: var(--rb-brand);"></i>Our Services</span>
+            </div>
+            <div class="pt-3">
+                <a href="#"
+                    class="text-decoration-none text-white fw-700 d-flex align-items-center justify-content-center p-3 btn btn-dark w-100 rounded-3 text-nowrap shadow"><i
+                        class="bi bi-headset me-2"></i> 24/7 Customer Support</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-header bg-dark text-white border-0 py-3 px-4">
+                    <h5 class="modal-title fw-800 fs-4 text-nowrap" id="loginModalLabel"><i
+                            class="bi bi-person-lock me-2"></i>Secure Sign In</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="customLoginForm" onsubmit="handleLoginSubmit(event)">
+                        <div class="mb-3">
+                            <label for="userNameInput" class="form-label fw-700 small text-muted text-nowrap">ENTER YOUR NAME</label>
+                            <input type="text" class="form-control form-control-lg border-light-subtle rounded-3"
+                                id="userNameInput" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="userPhoneInput" class="form-label fw-700 small text-muted text-nowrap">MOBILE NUMBER</label>
+                            <input type="tel" class="form-control form-control-lg border-light-subtle rounded-3"
+                                id="userPhoneInput" placeholder="Enter 10 Digit Phone Number" required>
+                        </div>
+                        <button type="submit"
+                            class="btn btn-brand btn-lg w-100 rounded-3 fw-700 py-3 text-nowrap shadow-sm">Confirm &
+                            Connect</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="hero-section bg-dark text-white d-flex align-items-center py-5" style="min-height: 420px;">
+        <div class="container position-relative z-2 py-4">
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-8 text-center text-lg-start">
+                    <span class="badge mb-3 px-3 py-2 rounded-pill text-uppercase tracking-wider fw-800"
+                        style="background-color: var(--rb-brand);">India's No. 1 Bus Platform</span>
+                    <h1 class="display-4 fw-800 mb-3 lh-sm text-white text-nowrap">Skip the Counter.<br>Book Smart,Travel Premium.</h1>
+                    <p class="lead text-white-50 mb-0 fw-500 fs-5 max-w-xl">Access over 3,000+ bus operators with
+                        real-time tracking and dynamic pricing updates instantly.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <section class="search-container" id="search-section">
+            <form class="row g-3 align-items-end">
+                <div class="col-xl-3 col-md-6">
+                    <label class="form-label fw-700 text-secondary fs-6 mb-2 text-nowrap"><i
+                            class="bi bi-geo-alt-fill text-danger me-1"></i> From (Departure)</label>
+                    <div class="form-floating">
+                        <input type="text" class="form-control border-light-subtle text-dark fw-600 rounded-3"
+                            id="floatingFrom" placeholder="Departure City" required>
+                        <label for="floatingFrom" class="text-muted fw-500">Enter departure city</label>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <label class="form-label fw-700 text-secondary fs-6 mb-2 text-nowrap"><i
+                            class="bi bi-cursor-fill text-success me-1"></i> To (Destination)</label>
+                    <div class="form-floating">
+                        <input type="text" class="form-control border-light-subtle text-dark fw-600 rounded-3"
+                            id="floatingTo" placeholder="Destination City" required>
+                        <label for="floatingTo" class="text-muted fw-500">Enter destination city</label>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <label class="form-label fw-700 text-secondary fs-6 mb-2 text-nowrap"><i
+                            class="bi bi-calendar3 text-primary me-1"></i> Date of Journey</label>
+                    <div class="form-floating">
+                        <input type="date" class="form-control border-light-subtle text-dark fw-600 rounded-3"
+                            id="floatingDate" required>
+                        <label for="floatingDate" class="text-muted fw-500">Choose date</label>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <button type="submit"
+                        class="btn btn-brand w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 shadow-sm fw-800 text-nowrap"
+                        style="height: 58px; font-size: 1.1rem;">
+                        <i class="bi bi-search fs-5"></i> Search Buses
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section class="py-5 my-4" id="offers-section">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-800 text-dark mb-1">Trending Offers For You</h2>
+                    <p class="text-muted fw-600 mb-0">Claim personalized discounts before they disappear</p>
+                </div>
+                <button class="btn btn-link text-decoration-none d-none d-sm-block fs-6 fw-700 text-nowrap"
+                    style="color: var(--rb-brand);">View All Offers <i class="bi bi-arrow-right"></i></button>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 p-4 shadow-sm h-100 bg-white hover-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span
+                             class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-700 text-nowrap">SAVE UP TO ₹300</span>
+                        </div>
+                        <h5 class="fw-800 text-dark mb-2">Mega Monsoon Getaways</h5>
+                        <p class="text-muted fw-500 small">Use code <b style="color: var(--rb-brand);">MONSOON</b> to unlock instant value discounts on intercity routes.</p>
+                        <hr class="text-muted my-3 opacity-25">
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-uppercase fw-800 bg-light px-3 py-2 rounded border small text-nowrap"
+                                style="color: var(--rb-brand); letter-spacing: 0.5px;">MONSOON</span>
+                            <span class="text-muted fw-600 small text-nowrap"><i class="bi bi-clock me-1"></i>Till 31 Jul</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 p-4 shadow-sm h-100 bg-white hover-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span
+                            class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-700 text-nowrap">10% OFF</span>
+                        </div>
+                        <h5 class="fw-800 text-dark mb-2">Super Private Sleeper Deals</h5>
+                        <p class="text-muted fw-500 small">Book verified premium luxury sleepers using digital wallets for verified cashback.</p>
+                        <hr class="text-muted my-3 opacity-25">
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-uppercase fw-800 bg-light px-3 py-2 rounded border small text-nowrap"
+                                style="color: var(--rb-brand); letter-spacing: 0.5px;">LUXURY10</span>
+                            <span class="text-muted fw-600 small text-nowrap"><i class="bi bi-clock me-1"></i>Till 28 Jul</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 p-4 shadow-sm h-100 bg-white hover-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span
+                                class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-700 text-nowrap">FLAT ₹150 OFF</span>
+                        </div>
+                        <h5 class="fw-800 text-dark mb-2">First Ride Special Voucher</h5>
+                        <p class="text-muted fw-500 small">Exclusive welcome bonus directly calculated on your very first platform signup booking.</p>
+                        <hr class="text-muted my-3 opacity-25">
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-uppercase fw-800 bg-light px-3 py-2 rounded border small text-nowrap"
+                                style="color: var(--rb-brand); letter-spacing: 0.5px;">FIRSTBUS</span>
+                            <span
+                                class="badge bg-secondary-subtle text-secondary fw-700 small px-2 py-1 rounded text-uppercase text-nowrap">New Users</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5" id="routes-section">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <h2 class="fw-800 text-dark">Popular Bus Routes</h2>
+                <p class="text-muted fw-600">Connecting major business centers and tourist hubs effortlessly every single day</p>
+            </div>
+            <div class="row g-3">
+                <div class="col-xl-3 col-md-6">
+                    <div class="border-0 rounded-4 p-4 d-flex justify-content-between align-items-center bg-white shadow-sm hover-card"
+                        style="cursor: pointer;">
+                        <div>
+                            <span class="fw-700 text-dark d-block fs-5 mb-1 text-nowrap">Bangalore to Chennai</span>
+                            <span class="badge bg-danger-subtle text-danger fw-700 px-2.5 py-1 rounded text-nowrap">350+ Daily Buses</span>
+                        </div>
+                        <i class="bi bi-arrow-right-circle-fill fs-3 ms-2" style="color: var(--rb-brand);"></i>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="border-0 rounded-4 p-4 d-flex justify-content-between align-items-center bg-white shadow-sm hover-card"
+                        style="cursor: pointer;">
+                        <div>
+                            <span class="fw-700 text-dark d-block fs-5 mb-1 text-nowrap">Mumbai to Pune</span>
+                            <span class="badge bg-danger-subtle text-danger fw-700 px-2.5 py-1 rounded text-nowrap">500+ Daily Buses</span>
+                        </div>
+                        <i class="bi bi-arrow-right-circle-fill fs-3 ms-2" style="color: var(--rb-brand);"></i>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="border-0 rounded-4 p-4 d-flex justify-content-between align-items-center bg-white shadow-sm hover-card"
+                        style="cursor: pointer;">
+                        <div>
+                            <span class="fw-700 text-dark d-block fs-5 mb-1 text-nowrap">Delhi to Jaipur</span>
+                            <span class="badge bg-danger-subtle text-danger fw-700 px-2.5 py-1 rounded text-nowrap">210+ Daily Buses</span>
+                        </div>
+                        <i class="bi bi-arrow-right-circle-fill fs-3 ms-2" style="color: var(--rb-brand);"></i>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="border-0 rounded-4 p-4 d-flex justify-content-between align-items-center bg-white shadow-sm hover-card"
+                        style="cursor: pointer;">
+                        <div>
+                            <span class="fw-700 text-dark d-block fs-5 mb-1 text-nowrap">Hyderabad to Bangalore</span>
+                            <span class="badge bg-danger-subtle text-danger fw-700 px-2.5 py-1 rounded text-nowrap">400+ Daily Buses</span>
+                        </div>
+                        <i class="bi bi-arrow-right-circle-fill fs-3 ms-2" style="color: var(--rb-brand);"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5 my-4" id="features-section">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h2 class="fw-800 text-dark mb-3">Redefining intercity road travel safety standards.</h2>
+                    <p class="text-muted fw-600 mb-4 mb-lg-0">Every operator undergoes continuous evaluation performance
+                        checks for extreme reliability metrics.</p>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row g-4">
+                        <div class="col-sm-6">
+                            <div class="card border-0 p-4 h-100 shadow-sm bg-white hover-card">
+                                <div class="fs-1 mb-3 text-danger"><i class="bi bi-shield-check"></i></div>
+                                <h5 class="fw-800 text-dark fs-4 text-nowrap">Primo Safety Guarantee</h5>
+                                <p class="text-muted fw-500 small mb-0">Certified top-tier operators with high-rated
+                                    drivers and regular mandatory mechanical checkups.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 p-4 h-100 shadow-sm bg-white hover-card">
+                                <div class="fs-1 mb-3 text-primary"><i class="bi bi-geo-alt"></i></div>
+                                <h5 class="fw-800 text-dark fs-4 text-nowrap">Live GPS Bus Tracking</h5>
+                                <p class="text-muted fw-500 small mb-0">Share accurate live route location streams with
+                                    your family members directly from your mobile dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <h5 class="fw-bold text-danger mb-3 fs-4 text-nowrap"><i
+                            class="bi bi-bus-front-fill me-2"></i>redBus</h5>
+                    <p class="small text-white-50 fw-500">Global pioneer ecosystem offering verified intercity inventory
+                        discovery pipelines worldwide seamlessly.</p>
+                </div>
+                <div class="col-6 col-lg-2 offset-lg-2">
+                    <h6 class="text-uppercase tracking-wider fw-800 text-danger mb-3 small text-nowrap">Book</h6>
+                    <ul class="list-unstyled text-white-50 small d-grid gap-2 fw-600">
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">Bus Tickets</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">Tempo Travelers</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">Cab Rentals</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-uppercase tracking-wider fw-800 text-danger mb-3 small text-nowrap">Info</h6>
+                    <ul class="list-unstyled text-white-50 small d-grid gap-2 fw-600">
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">T&C Policies</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">Privacy Setup</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none text-nowrap">Cookie Rules</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="text-uppercase tracking-wider fw-800 text-danger mb-3 small text-nowrap">Social Connections</h6>
+                    <div class="d-flex gap-3 fs-4 text-white-50">
+                        <a href="#" class="text-reset"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-reset"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="text-reset"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="opacity-25 my-4 bg-white">
+            <div class="text-center text-white-50 small fw-600">
+                <p class="mb-0">&copy; 2026 redBus Platform Engine. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarElement = document.getElementById('sidebarMenu');
+            const bsOffcanvas = new bootstrap.Offcanvas(sidebarElement);
+
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const targetId = this.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        bsOffcanvas.hide();
+                        setTimeout(() => {
+                            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                            const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }, 300);
+                    }
+                });
+            });
+            const savedName = localStorage.getItem('rb_user_name');
+            if (savedName) {
+                updateAuthUI(savedName);
+            }
+        });
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('userNameInput').value;
+            if (nameInput.trim() !== "") {
+                localStorage.setItem('rb_user_name', nameInput);
+                updateAuthUI(nameInput);
+                const modalElement = document.getElementById('loginModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+        }
+        function updateAuthUI(userName) {
+            if (userName) {
+                document.getElementById('userProfileDisplay').classList.remove('d-none');
+                document.getElementById('userProfileDisplay').classList.add('d-flex');
+                document.getElementById('displayedUserName').textContent = userName;
+
+                document.getElementById('sidebarLoggedOut').classList.add('d-none');
+                document.getElementById('sidebarLoggedIn').classList.remove('d-none');
+                document.getElementById('sidebarName').textContent = userName;
+            } else {
+                document.getElementById('userProfileDisplay').classList.remove('d-flex');
+                document.getElementById('userProfileDisplay').classList.add('d-none');
+
+                document.getElementById('sidebarLoggedOut').classList.remove('d-none');
+                document.getElementById('sidebarLoggedIn').classList.add('d-none');
+            }
+        }
+        function logoutUser() {
+            localStorage.removeItem('rb_user_name');
+            updateAuthUI(null);
+        }
+    </script>
+</body>
+</html>

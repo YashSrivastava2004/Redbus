@@ -1,0 +1,99 @@
+:root {
+    --rb-brand: #d84e55;
+    --rb-brand-dark: #b8393f;
+    --rb-bg-light: #f7f9fc;
+    --rb-text-main: #1f2937;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--rb-bg-light);
+    color: var(--rb-text-main);
+    overflow-x: hidden;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.search-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    margin-top: -50px;
+    position: relative;
+    z-index: 10;
+}
+
+.hover-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px !important;
+}
+
+.hover-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(216, 78, 85, 0.08) !important;
+    border-color: rgba(216, 78, 85, 0.3) !important;
+}
+
+.sidebar-link {
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    color: var(--rb-text-main);
+}
+
+.sidebar-link:hover {
+    background-color: rgba(216, 78, 85, 0.08);
+    color: var(--rb-brand) !important;
+    transform: translateX(4px);
+}
+
+.btn-brand {
+    background-color: var(--rb-brand);
+    color: white;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-brand:hover {
+    background-color: var(--rb-brand-dark);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.form-floating>.form-control:focus {
+    border-color: var(--rb-brand);
+    box-shadow: 0 0 0 0.25rem rgba(216, 78, 85, 0.15);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    position: relative;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to top, var(--rb-bg-light), transparent);
+}
